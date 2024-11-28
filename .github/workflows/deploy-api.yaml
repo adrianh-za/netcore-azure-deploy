@@ -27,3 +27,9 @@ jobs:
         login-server: ${{ vars.ACR_REGISTRY }}
         username: ${{ secrets.ACR_USERNAME }}
         password: ${{ secrets.ACR_PASSWORD }}
+
+    - name: SHA of the commit
+      id: vars
+      run: |
+        calculatedSHA=$(git rev-parse --short ${{ github.sha }})
+        echo "::set-output name=sha::${calculatedSHA}"

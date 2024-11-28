@@ -54,7 +54,7 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Deploy container to Azure Container Service
-      uses: azure/container-apps-deploy@v1
+      uses: azure/container-apps-deploy-action@v1
       env:
         image-tag: ${{ steps.build-and-deploy.outputs.short_sha }}
         acr_server: ${{ vars.ACR_REGISTRY }}

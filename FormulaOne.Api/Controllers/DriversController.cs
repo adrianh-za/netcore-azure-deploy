@@ -9,9 +9,7 @@ namespace FormulaOne.Api.Controllers;
 
 public class DriversController : BaseController
 {
-    public DriversController(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
-    { 
-    }
+    public DriversController(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
 
     [HttpGet]
     [Route("{driverId:Guid}")]
@@ -23,7 +21,7 @@ public class DriversController : BaseController
             return NotFound();
 
         var result = _mapper.Map<GetDriverResponse>(driver);
-     
+
         return Ok(result);
     }
 

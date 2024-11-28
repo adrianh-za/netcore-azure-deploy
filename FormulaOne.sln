@@ -9,13 +9,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormulaOne.Entities", "Form
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormulaOne.DataService", "FormulaOne.DataService\FormulaOne.DataService.csproj", "{778D43A8-FA19-466E-AB4A-CE46B01E3520}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{452BA2E3-093C-428A-BDF9-CC95AA1A17E5}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		docker-compose.yml = docker-compose.yml
+		FormulaOne.Dockerfile = FormulaOne.Dockerfile
+		readme.txt = readme.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{E034389B-DE2A-4D35-B1F0-D939C336BB13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -30,5 +35,8 @@ Global
 		{778D43A8-FA19-466E-AB4A-CE46B01E3520}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{778D43A8-FA19-466E-AB4A-CE46B01E3520}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{778D43A8-FA19-466E-AB4A-CE46B01E3520}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

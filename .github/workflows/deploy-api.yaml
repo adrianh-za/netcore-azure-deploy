@@ -32,7 +32,7 @@ jobs:
       id: vars
       run: |
         calculatedSHA=$(git rev-parse --short ${{ github.sha }})
-        echo "::set-output name=sha::${calculatedSHA}"
+        echo "::set-output name=short_sha::${calculatedSHA}"
 
     - name: Build and push Docker image to ACR
       env:

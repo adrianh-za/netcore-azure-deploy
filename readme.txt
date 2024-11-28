@@ -16,3 +16,5 @@ docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Admin@123" -p 1433:1433 --name sql
 cd formulaone/dataservice
 dotnet ef database update --startup-project ../FormulaOne.Api
 
+5) When setting up the azure login
+az ad sp create-for-rbac --name github-auth --role contributor --scopes /subscriptions/2eb09d37-aeca-4527-8df1-69a4246ca026/resourceGroups/f1-rg --json-auth --output json

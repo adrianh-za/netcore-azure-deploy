@@ -1,0 +1,29 @@
+name: Build and deploy API to Azure
+
+# Controls when the action will run.
+on:
+  push:
+    branches:
+      - main
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+  steps:
+    - name : Checkout Code
+      id: github-checkout
+      uses: actions/checkout@v3
+
+    - name: Settup WebApi .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Configure Azure ACR
+      uses: azure/docker-login@v2
+      with:
+        login-server: ${{ vars.ACR_REGISTRY }}
+        username: ${{ secrets.ACR_USERNAME }}
+        password: ${{ secrets.ACR_PASSWORD }}

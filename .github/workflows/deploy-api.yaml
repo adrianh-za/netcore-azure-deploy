@@ -52,3 +52,19 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Deploy container to Azure Container Service
+      uses: azure/container-apps-deploy@v1
+      env:
+        image-tag: ${{ steps.build-and-deploy.outputs.short_sha }}
+        acr_server: ${{ vars.ACR_REGISTRY }}
+      with:
+        registryUrl: $acr_server
+        imageToDeploy: $acr_server/f1app:$image
+        targetPort: 8080
+        ingress: external
+        containerAppName: f1contappdev
+        containerAppEnvironment: f1appenvdev
+        resourceGroup: f1-rg
+        environment: |
+          ASPNETCORE_ENVIRONMENT=Development ASPNETCORE_URLS=http://*:8080

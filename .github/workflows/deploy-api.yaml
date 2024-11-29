@@ -6,7 +6,7 @@ on:
     branches:
       - main
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel...
+# Workflow of the pipeline
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -15,7 +15,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      id: github-checkout
+      id: github
       uses: actions/checkout@v3
 
     - name: Setup WebApi .NET
@@ -34,7 +34,7 @@ jobs:
       id: vars
       run: |
         calculatedSHA=$(git rev-parse --short ${{ github.sha }})
-        echo "::set-output name=short_sha::${calculatedSHA}"
+        echo "::set-output name=short_sha::$calculatedSHA"
 
     - name: Build and push Docker image to Azure Container Service
       env:
@@ -43,6 +43,7 @@ jobs:
       run: |
         docker build -f FormulaOne.Dockerfile -t $ACR_REGISTRY/f1app:$IMAGE_NAME -t $ACR_REGISTRY/f1app:latest .
         docker push $ACR_REGISTRY/f1app --all-tags
+
 
   deploy-container-to-ACS:
     runs-on: ubuntu-latest
@@ -53,10 +54,10 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Deploy container to Azure Container Service
+      - name: Build and deploy to Azure Container Service
         uses: azure/container-apps-deploy-action@v1
         env:
-          image-tag: ${{ steps.build-and-deploy.outputs.short_sha }}
+          image-tag: ${{ needs.build-and-deploy.outputs.short_sha }}
           acr_server: ${{ vars.ACR_REGISTRY }}
         with:
           registryUrl: ${{ vars.ACR_REGISTRY }}

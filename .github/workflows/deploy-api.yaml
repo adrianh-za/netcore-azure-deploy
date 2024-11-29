@@ -51,23 +51,23 @@ jobs:
     needs: build-and-deploy
 
     steps:
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Build and deploy to Azure Container Service
-        uses: azure/container-apps-deploy-action@v1
-        env:
-          IMAGE_TAG: ${{ needs.build-and-deploy.outputs.short_sha }}
-          ACR_SERVER: ${{ vars.ACR_REGISTRY }}
-        with:
-          registryUrl: ${{ vars.ACR_REGISTRY }}
-          imageToDeploy: $ACR_SERVER/f1app:$IMAGE_TAG
-          targetPort: 8080
-          ingress: external
-          containerAppName: f1appdev
-          containerAppEnvironment: f1envdev
-          resourceGroup: f1-rg
-          environment: |
-            ASPNETCORE_ENVIRONMENT=Development ASPNETCORE_URLS=http://*:8080
+    - name: Build and deploy to Azure Container Service
+      uses: azure/container-apps-deploy-action@v1
+      env:
+        IMAGE_TAG: ${{ needs.build-and-deploy.outputs.short_sha }}
+        ACR_SERVER: ${{ vars.ACR_REGISTRY }}
+      with:
+        registryUrl: ${{ vars.ACR_REGISTRY }}
+        imageToDeploy: $ACR_SERVER/f1app:$IMAGE_TAG
+        targetPort: 8080
+        ingress: external
+        containerAppName: f1appdev
+        containerAppEnvironment: f1envdev
+        resourceGroup: f1-rg
+        environment: |
+          ASPNETCORE_ENVIRONMENT=Development ASPNETCORE_URLS=http://*:8080

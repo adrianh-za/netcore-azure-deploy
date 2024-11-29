@@ -57,11 +57,11 @@ jobs:
       - name: Build and deploy to Azure Container Service
         uses: azure/container-apps-deploy-action@v1
         env:
-          ACR_REGISTRY: ${{ vars.ACR_REGISTRY }}
           IMAGE_TAG: ${{ needs.build-and-deploy.outputs.short_sha }}
+          ACR_SERVER: ${{ vars.ACR_REGISTRY }}
         with:
           registryUrl: ${{ vars.ACR_REGISTRY }}
-          imageToDeploy: $ACR_REGISTRY/f1app:$IMAGE_TAG
+          imageToDeploy: $ACR_SERVER/f1app:$IMAGE_TAG
           targetPort: 8080
           ingress: external
           containerAppName: f1appdev

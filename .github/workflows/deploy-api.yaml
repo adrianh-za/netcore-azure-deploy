@@ -14,16 +14,16 @@ jobs:
       short_sha: ${{ steps.vars.outputs.short_sha }}
 
     steps:
-    - name: Checkout Code
+    - name: Checkout code
       id: github-checkout
       uses: actions/checkout@v3
 
-    - name: Settup WebApi .NET
+    - name: Setup WebApi .NET
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: '8.0.x'
 
-    - name: Configure Azure ACR
+    - name: Configure Azure Container Service
       uses: azure/docker-login@v2
       with:
         login-server: ${{ vars.ACR_REGISTRY }}
@@ -36,35 +36,10 @@ jobs:
         calculatedSHA=$(git rev-parse --short ${{ github.sha }})
         echo "::set-output name=short_sha::${calculatedSHA}"
 
-    - name: Build and push Docker image to ACR
+    - name: Build and push Docker image to Azure Container Service
       env:
         ACR_REGISTRY: ${{ vars.ACR_REGISTRY }}
         IMAGE_NAME: ${{ steps.vars.outputs.short_sha }}
       run: |
         docker build -f FormulaOne.Dockerfile -t $ACR_REGISTRY/f1app:$IMAGE_NAME -t $ACR_REGISTRY/f1app:latest .
         docker push $ACR_REGISTRY/f1app --all-tags
-
-  deploy-container-to-ACS:
-    runs-on: ubuntu-latest
-    needs: build-and-deploy
-    steps:
-    - name: Login to Azure
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-    - name: Deploy container to Azure Container Service
-      uses: azure/container-apps-deploy-action@v1
-      env:
-        image-tag: ${{ steps.build-and-deploy.outputs.short_sha }}
-        acr_server: ${{ vars.ACR_REGISTRY }}
-      with:
-        registryUrl: ${{ vars.ACR_REGISTRY }}
-        imageToDeploy: $acr_server/f1app:$image
-        targetPort: 8080
-        ingress: external
-        containerAppName: f1contappdev
-        containerAppEnvironment: f1appenvdev
-        resourceGroup: f1-rg
-        environment: |
-          ASPNETCORE_ENVIRONMENT=Development ASPNETCORE_URLS=http://*:8080

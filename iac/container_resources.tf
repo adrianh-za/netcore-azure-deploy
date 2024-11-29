@@ -26,7 +26,7 @@ resource "azurerm_container_registry" "formula-one" {
 }
 resource "azurerm_container_app" "formula-one" {
   container_app_environment_id  = azurerm_container_app_environment.formula-one.id
-  name                          = "f1app${var.env_id}"
+  name                          = "f1appcon${var.env_id}"
   resource_group_name           = azurerm_resource_group.formula-one.name
   revision_mode                 = "Multiple"
 
@@ -37,7 +37,7 @@ resource "azurerm_container_app" "formula-one" {
     container {
       cpu    = 0.25
       memory = "0.5Gi"
-      name   = "f1api${var.env_id}"
+      name   = "f1-api-${var.env_id}"
       image  = "mcr.microsoft.com/k8se/quickstart:latest"
     }
   }

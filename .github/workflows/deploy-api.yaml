@@ -60,7 +60,7 @@ jobs:
           ACR_REGISTRY: ${{ vars.ACR_REGISTRY }}
           IMAGE_TAG: ${{ needs.build-and-deploy.outputs.short_sha }}
         with:
-          registryUrl: $ACR_REGISTRY
+          registryUrl: ${{ vars.ACR_REGISTRY }}
           imageToDeploy: $ACR_SERVER/f1app:$IMAGE_TAG
           targetPort: 8080
           ingress: external

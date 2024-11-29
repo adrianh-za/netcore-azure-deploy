@@ -59,7 +59,7 @@ jobs:
       env:
         IMAGE_TAG: ${{ needs.build-and-deploy-to-ACR.outputs.short_sha }}
         ACR_REGISTRY: ${{ vars.ACR_REGISTRY }}
-        PASSWORD: ${{ secrets.DB_CONN }}
+        SQL_CONNECTION: ${{ secrets.SQL_CONNECTION }}
       with:
         registryUrl: ${{ vars.ACR_REGISTRY }}
         imageToDeploy: $ACR_REGISTRY/f1app:$IMAGE_TAG
@@ -69,4 +69,4 @@ jobs:
         containerAppEnvironment: f1envdev
         resourceGroup: f1-rg
         environmentVariables: |
-          ASPNETCORE_ENVIRONMENT=Development ASPNETCORE_URLS=http://+:8080 ConnectionStrings__DefaultConnectionMsSql=$PASSWORD
+          ASPNETCORE_ENVIRONMENT=Development ASPNETCORE_URLS=http://+:8080 ConnectionStrings__DefaultConnectionMsSql=$SQL_CONNECTION

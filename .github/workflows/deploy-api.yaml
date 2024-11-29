@@ -65,7 +65,7 @@ jobs:
         imageToDeploy: $ACR_REGISTRY/f1app:$IMAGE_TAG
         targetPort: 8080
         ingress: external
-        containerAppName: f1appdev
+        containerAppName: f1apidev
         containerAppEnvironment: f1envdev
         resourceGroup: f1-rg
         environment: |

@@ -39,7 +39,7 @@ jobs:
     - name: Build and push Docker image to Azure Container Service
       env:
         acr-registry: ${{ vars.ACR_REGISTRY }}
-        image-tag: ${{ steps.vars.outputs.short_sha }}
+        image-tag: ${{ steps.vars.outputs.short-sha }}
       run: |
         docker build -f FormulaOne.Dockerfile -t $acr-registry/f1app:$image-tag -t $acr-registry/f1app:latest .
         docker push $acr-registry/f1app --all-tags

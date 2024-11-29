@@ -46,7 +46,7 @@ jobs:
 
   deploy-container-to-ACR:
     runs-on: ubuntu-latest
-    needs: build-and-deploy-to-ACS
+    needs: build-and-deploy-to-ACR
 
     steps:
     - name: Login to Azure
@@ -57,7 +57,7 @@ jobs:
     - name: Build and deploy to Azure Container Service
       uses: azure/container-apps-deploy-action@v1
       env:
-        IMAGE_TAG: ${{ needs.build-and-deploy-to-ACS.outputs.short_sha }}
+        IMAGE_TAG: ${{ needs.build-and-deploy-to-ACR.outputs.short_sha }}
         ACR_REGISTRY: ${{ vars.ACR_REGISTRY }}
         DB_CONNECTION: ${{ secrets.DB_CONN }}
       with:

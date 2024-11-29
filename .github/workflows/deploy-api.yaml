@@ -11,7 +11,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     outputs:
-      short-sha: ${{ steps.vars.outputs.short-sha }}
+      short_sha: ${{ steps.vars.outputs.short_sha }}
 
     steps:
     - name: Checkout code
@@ -34,15 +34,17 @@ jobs:
       id: vars
       run: |
         calculatedSHA=$(git rev-parse --short ${{ github.sha }})
-        echo "::set-output name=short-sha::$calculatedSHA"
+        echo "::set-output name=short_sha::$calculatedSHA"
 
     - name: Build and push Docker image to Azure Container Service
       env:
-        acr-registry: ${{ vars.ACR_REGISTRY }}
-        image-tag: ${{ steps.vars.outputs.short-sha }}
+        ACR_REGISTRY: ${{ vars.ACR_REGISTRY }}
+        IMAGE_NAME: ${{ steps.vars.outputs.short_sha }}
       run: |
-        docker build -f FormulaOne.Dockerfile -t $acr-registry/f1app:$image-tag -t $acr-registry/f1app:latest .
-        docker push $acr-registry/f1app --all-tags
+        docker build -f FormulaOne.Dockerfile -t $ACR_REGISTRY/f1app:$IMAGE_NAME -t $ACR_REGISTRY/f1app:latest .
+        docker push $ACR_REGISTRY/f1app --all-tags
+
+
 
   deploy-container-to-ACS:
     runs-on: ubuntu-latest
@@ -57,11 +59,11 @@ jobs:
       - name: Build and deploy to Azure Container Service
         uses: azure/container-apps-deploy-action@v1
         env:
-          image-tag: ${{ needs.build-and-deploy.outputs.short-sha }}
-          acr-registry: ${{ vars.ACR_REGISTRY }}
+          IMAGE_TAG: ${{ needs.build-and-deploy.outputs.short_sha }}
+          ACR_SERVER: ${{ vars.ACR_REGISTRY }}
         with:
           registryUrl: ${{ vars.ACR_REGISTRY }}
-          imageToDeploy: $acr-registry/f1app:imageTag
+          imageToDeploy: $ACR_SERVER/f1app:$IMAGE_TAG
           targetPort: 8080
           ingress: external
           containerAppName: f1appdev

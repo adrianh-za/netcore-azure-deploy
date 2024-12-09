@@ -18,3 +18,7 @@ dotnet ef database update --startup-project ../FormulaOne.Api
 
 5) When setting up the azure login
 az ad sp create-for-rbac --name github-auth --role contributor --scopes /subscriptions/2eb09d37-aeca-4527-8df1-69a4246ca026/resourceGroups/f1-rg --json-auth --output json
+
+
+6) later on for terraform
+az role assignment create --assignee 814d1fb6-db5a-4224-bba9-5cde44d6aaff --role Contributor --scope /subscriptions/2eb09d37-aeca-4527-8df1-69a4246ca026

@@ -42,6 +42,7 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 
+//Do the migration
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();

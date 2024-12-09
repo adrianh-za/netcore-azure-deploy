@@ -3,6 +3,8 @@ name: Build and deploy API to Azure
 # Controls when the action will run.
 on:
   push:
+    paths-ignore:
+      - 'iac/**'
     branches:
       - main
 

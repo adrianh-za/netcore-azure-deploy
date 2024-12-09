@@ -38,7 +38,7 @@ jobs:
         working-directory: ./iac/
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan
+        run: terraform plan -var="sql_password=${{ secrets.SQL_PASSWORD }}" -out=tfplan
         working-directory: ./iac/
 
       - name: Terraform Apply

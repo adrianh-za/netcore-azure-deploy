@@ -5,5 +5,6 @@
   tags = {
     environment = var.env_id,
     src         = var.infra_src
+    review      = "demo"
   }
 }
